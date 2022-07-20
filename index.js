@@ -1,30 +1,23 @@
-class Timer {
-  constructor(durationInput, startButton, pauseButton) {
-    this.durationInput = durationInput;
-    this.startButton = startButton;
-    this.pauseButton = pauseButton;
+setInterval(setClock,1000)
 
-    this.startButton.addEventListener('click', this.start);
-    this.pauseButton.addEventListener('click', this.pause);
-  }
+const hourRHand=document.querySelector('[data-hour-hand]')
+const minutHand=document.querySelector('[data-minut-hand]')
+const secondHand=document.querySelector('[data-second-hand]');
 
-  start = () => {
-    this.tick();
-    this.interval = setInterval(this.tick, 1000);
-  };
+function setClock() {
+  const curentdate=new Date();
+  const secondRatio=curentdate.getSeconds() /60
+const minutRatio=(secondRatio+curentdate.getMinutes()) / 60
+const hourRatio=(minutRatio+curentdate.getHours()) / 12
 
-  pause = () => {
-    clearInterval(this.interval);
-  };
+setRotation(secondHand,secondRatio)
+setRotation(minutHand,minutRatio)
+setRotation(hourRHand,hourRatio)
 
-  tick = () => {
-    const timeRemaining = parseFloat(this.durationInput.value);
-    this.durationInput.value = timeRemaining - 1;
-  };
+}
+function setRotation(element,rotationRatio) {
+  element.style.setProperty('--rotation',rotationRatio * 360)
 }
 
-const durationInput = document.querySelector('#duration');
-const startButton = document.querySelector('#start');
-const pauseButton = document.querySelector('#pause');
+setClock();
 
-const timer = new Timer(durationInput, startButton, pauseButton);
